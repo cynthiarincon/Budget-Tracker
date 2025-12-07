@@ -13,6 +13,8 @@ $primary-color: #33C491;
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box; //prevents inputs from overflowing
+
 }
 
 // Body - USES GRADIENT MIXIN
