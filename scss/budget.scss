@@ -1,0 +1,88 @@
+// Primary Color Variable
+$primary-color: #33C491;
+
+
+//Gradient Mixin
+@mixin gradient($color1, $color2) {
+  background: linear-gradient(135deg, $color1 0%, $color2 100%);
+}
+
+
+// STYLES
+// Reset - Removes default browser spacing
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// Body - USES GRADIENT MIXIN
+body {
+  font-family: Arial, sans-serif;
+  @include gradient($primary-color, white);
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+// Header - USES PRIMARY COLOR
+h1 {
+  color: $primary-color;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+p {
+  text-align: center;
+  margin: 10px 0 30px 0;
+}
+
+section {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-income {
+  background: $primary-color;
+}
+
+.btn-expense {
+  background: #e74c3c;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: $primary-color;
+}
