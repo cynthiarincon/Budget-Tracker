@@ -1,20 +1,17 @@
 // Primary Color Variable
 $primary-color: #33C491;
 
-
-//Gradient Mixin
+// Gradient Mixin
 @mixin gradient($color1, $color2) {
   background: linear-gradient(135deg, $color1 0%, $color2 100%);
 }
-
 
 // STYLES
 // Reset - Removes default browser spacing
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; //prevents inputs from overflowing
-
+  box-sizing: border-box;
 }
 
 // Body - USES GRADIENT MIXIN
@@ -83,8 +80,35 @@ button {
   background: #e74c3c;
 }
 
+// Clear button style
+.btn-clear {
+  background: #95a5a6;
+  margin-top: 20px;
+  
+  &:hover {
+    background: #7f8c8d;
+  }
+}
+
 .summary-value {
   font-size: 24px;
   font-weight: bold;
   color: $primary-color;
+}
+
+// Styles for list items with dates
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  
+  .item-text {
+    font-weight: 500;
+  }
+  
+  .item-date {
+    color: #999;
+    font-size: 12px;
+  }
 }

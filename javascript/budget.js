@@ -1,25 +1,19 @@
-// ==============================================
-// Budget Class - Handles income and expense tracking
-// ==============================================
+// Budget Class
 class Budget {
   constructor() {
-    // Initialize empty arrays for storing financial data
     this.incomes = [];
     this.expenses = [];
   }
 
-  addIncome(description, amount) {
-    // Store income entry as an object with description and amount
-    this.incomes.push({ description, amount });
+  addIncome(description, amount, date) {
+    this.incomes.push({ description, amount, date });
   }
 
-  addExpense(description, amount) {
-    // Store expense entry as an object with description and amount
-    this.expenses.push({ description, amount });
+  addExpense(description, amount, date) {
+    this.expenses.push({ description, amount, date });
   }
 
   getTotalIncome() {
-    // Calculate sum of all income amounts
     let total = 0;
     for (let i = 0; i < this.incomes.length; i++) {
       total += this.incomes[i].amount;
@@ -28,7 +22,6 @@ class Budget {
   }
 
   getTotalExpenses() {
-    // Calculate sum of all expense amounts
     let total = 0;
     for (let i = 0; i < this.expenses.length; i++) {
       total += this.expenses[i].amount;
@@ -37,79 +30,61 @@ class Budget {
   }
 
   getTotalBudget() {
-    // Calculate remaining budget (income minus expenses)
     return this.getTotalIncome() - this.getTotalExpenses();
+  }
+
+  clearAll() {
+    this.incomes = [];
+    this.expenses = [];
   }
 }
 
 
-// ===========================================
-// Initialize Budget Instance
-// ===========================================
+// Create Budget and Select Elements
 const budget = new Budget();
 
-
-// ===========================================
-// DOM Element References
-// ============================================
-// Input fields
 const incomeDescInput = document.querySelector("#incomeDesc");
 const incomeAmountInput = document.querySelector("#incomeAmount");
 const expenseDescInput = document.querySelector("#expenseDesc");
 const expenseAmountInput = document.querySelector("#expenseAmount");
 
-// Action buttons
 const addIncomeBtn = document.querySelector("#addIncomeBtn");
 const addExpenseBtn = document.querySelector("#addExpenseBtn");
+const clearAllBtn = document.querySelector("#clearAllBtn");
 
-// Summary display elements
 const totalIncomeDisplay = document.querySelector("#totalIncome");
 const totalExpensesDisplay = document.querySelector("#totalExpenses");
 const totalBudgetDisplay = document.querySelector("#totalBudget");
 
-// List containers
 const incomeListContainer = document.querySelector("#incomeList");
 const expenseListContainer = document.querySelector("#expenseList");
 
 
-// ============================================
-// Display Update Functions
-// ===========================================
+// Functions
 function updateDisplays() {
-  // Update all summary totals with current budget values
   totalIncomeDisplay.textContent = "$" + budget.getTotalIncome().toFixed(2);
   totalExpensesDisplay.textContent = "$" + budget.getTotalExpenses().toFixed(2);
   totalBudgetDisplay.textContent = "$" + budget.getTotalBudget().toFixed(2);
 }
 
-function addToIncomeList(description, amount) {
-  // Create new list item for income entry
+function addToIncomeList(description, amount, date) {
   const item = document.createElement("p");
-  item.textContent = description + " - $" + amount.toFixed(2);
+  item.textContent = description + " - $" + amount.toFixed(2) + " (" + date + ")";
   incomeListContainer.appendChild(item);
 }
 
-function addToExpenseList(description, amount) {
-  // Create new list item for expense entry
+function addToExpenseList(description, amount, date) {
   const item = document.createElement("p");
-  item.textContent = description + " - $" + amount.toFixed(2);
+  item.textContent = description + " - $" + amount.toFixed(2) + " (" + date + ")";
   expenseListContainer.appendChild(item);
 }
 
-function clearIncomeInputs() {
-  // Reset income input fields
-  incomeDescInput.value = "";
-  incomeAmountInput.value = "";
-}
-
-function clearExpenseInputs() {
-  // Reset expense input fields
-  expenseDescInput.value = "";
-  expenseAmountInput.value = "";
+function getCurrentDate() {
+  const today = new Date();
+  return (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
 }
 
 function removeEmptyMessage(container) {
-  // Remove placeholder text when first item is added
   const emptyMsg = container.querySelector(".empty-message");
   if (emptyMsg) {
     emptyMsg.remove();
@@ -117,15 +92,12 @@ function removeEmptyMessage(container) {
 }
 
 
-// ===========================================
-// Event Handlers
-// ============================================
+// Event Listeners
 addIncomeBtn.addEventListener("click", function() {
-  // Retrieve input values
   const description = incomeDescInput.value;
   const amount = parseFloat(incomeAmountInput.value);
+  const date = getCurrentDate();
 
-  // Input validation
   if (description === "" || incomeAmountInput.value === "") {
     alert("Please fill in both fields");
     return;
@@ -136,20 +108,20 @@ addIncomeBtn.addEventListener("click", function() {
     return;
   }
 
-  // Process valid income entry
-  budget.addIncome(description, amount);
+  budget.addIncome(description, amount, date);
   updateDisplays();
   removeEmptyMessage(incomeListContainer);
-  addToIncomeList(description, amount);
-  clearIncomeInputs();
+  addToIncomeList(description, amount, date);
+  
+  incomeDescInput.value = "";
+  incomeAmountInput.value = "";
 });
 
 addExpenseBtn.addEventListener("click", function() {
-  // Retrieve input values
   const description = expenseDescInput.value;
   const amount = parseFloat(expenseAmountInput.value);
+  const date = getCurrentDate();
 
-  // Input validation
   if (description === "" || expenseAmountInput.value === "") {
     alert("Please fill in both fields");
     return;
@@ -160,10 +132,20 @@ addExpenseBtn.addEventListener("click", function() {
     return;
   }
 
-  // Process valid expense entry
-  budget.addExpense(description, amount);
+  budget.addExpense(description, amount, date);
   updateDisplays();
   removeEmptyMessage(expenseListContainer);
-  addToExpenseList(description, amount);
-  clearExpenseInputs();
+  addToExpenseList(description, amount, date);
+  
+  expenseDescInput.value = "";
+  expenseAmountInput.value = "";
+});
+
+clearAllBtn.addEventListener("click", function() {
+  if (confirm("Are you sure you want to clear all data?")) {
+    budget.clearAll();
+    incomeListContainer.innerHTML = '<p class="empty-message">No income added yet</p>';
+    expenseListContainer.innerHTML = '<p class="empty-message">No expenses added yet</p>';
+    updateDisplays();
+  }
 });

@@ -68,8 +68,30 @@ button {
   background: #e74c3c;
 }
 
+.btn-clear {
+  background: #95a5a6;
+  margin-top: 20px;
+}
+.btn-clear:hover {
+  background: #7f8c8d;
+}
+
 .summary-value {
   font-size: 24px;
   font-weight: bold;
   color: #33C491;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.list-item .item-text {
+  font-weight: 500;
+}
+.list-item .item-date {
+  color: #999;
+  font-size: 12px;
 }/*# sourceMappingURL=budget.css.map */
